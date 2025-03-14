@@ -8,7 +8,7 @@ on:
         required: true
 
 jobs:
-  upload:
+  archive:
     runs-on: ubuntu-latest
     steps:
       - name: Download wheel
