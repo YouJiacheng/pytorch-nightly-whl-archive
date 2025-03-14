@@ -1,0 +1,23 @@
+name: Archive pytorch-triton wheel
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'pytorch-triton version (e.g. 3.2.0%2Bgit0d4682f0)'
+        required: true
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download wheel
+        run: |
+          wget -q https://download.pytorch.org/whl/nightly/pytorch_triton-${{ github.event.inputs.version }}-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl
+
+      - name: Upload to GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: "triton-${{ github.event.inputs.version }}"
+          files: pytorch_triton-*.whl
+          token: ${{ secrets.GITHUB_TOKEN }}
